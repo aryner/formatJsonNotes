@@ -13,6 +13,9 @@ def getSections(contentJson):
 def format_title(title,h=3):
   return '<h%d>%s</h%d>'%(h,title,h)
 
+def format_tag(section):
+  return '<%s>%s</%s>'%(section['tag'],section['content'],section['tag'])
+
 def format_section(section,nested=False):
   content = format_title(section['title'], 4 if nested else 3)
 
@@ -21,6 +24,8 @@ def format_section(section,nested=False):
   for subsection in subsections:
     if 'title' in subsection:
       content = '%s%s'%(content,format_section(subsection,True))
+    else:
+      content = '%s%s'%(content,format_tag(subsection))
 
   return content
 
