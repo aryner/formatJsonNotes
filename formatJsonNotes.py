@@ -1,5 +1,3 @@
-import ast
-
 def getSections(contentJson):
   sections = []
   index = 1
@@ -41,6 +39,8 @@ def format_content(json):
 
 if __name__ == '__main__':
   import sys
+  import ast
+
   name = sys.argv[1]
   f = open(name,'r')
   jsonString = f.readline()
