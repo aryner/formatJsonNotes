@@ -1,11 +1,6 @@
 import ast
 
-def format_title(title):
-  return '<h%d>%s</h%d>'%(3,title,3)
-
-def format_content(json):
-  content = ''
-  contentJson = json['content']
+def getSections(contentJson):
   sections = []
   index = 1
 
@@ -13,8 +8,29 @@ def format_content(json):
     sections.append(contentJson[str(index)])
     index += 1
 
+  return sections
+
+def format_title(title,h=3):
+  return '<h%d>%s</h%d>'%(h,title,h)
+
+def format_section(section,nested=False):
+  content = format_title(section['title'], 4 if nested else 3)
+
+  subsections = getSections(section)
+  
+  for subsection in subsections:
+    if 'title' in subsection:
+      content = '%s%s'%(content,format_section(subsection,True))
+
+  return content
+
+def format_content(json):
+  content = ''
+  contentJson = json['content']
+  sections = getSections(contentJson)
+
   for section in sections:
-    content = '%s%s'%(content,format_title(section['title']))
+    content = '%s%s'%(content,format_section(section))
 
   return content
 
